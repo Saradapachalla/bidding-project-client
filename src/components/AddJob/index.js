@@ -1,29 +1,48 @@
-import React, { useState } from "react";
-import { JobAddWrapper } from './AddJob.styled';
+import React, { useState } from "react"
+import { useNavigate } from 'react-router-dom'
+import { JobAddWrapper } from "./AddJob.styled"
+import { Button, DatePicker, Form, Input, InputNumber } from "antd"
+import dayjs from "dayjs"
+import customParseFormat from "dayjs/plugin/customParseFormat"
 
-const AddJob = () => {  
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 6 },
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 14 },
+  },
+};
+
+const AddJob = () => {
+dayjs.extend(customParseFormat)
+const dateFormat = "YYYY-MM-DD"
+const today = new Date().getDate()
+
   const CreateJobPayload = {
-   description: '',
-   requirement: '',
-   posterName: '',
-   posterContact: '',
-   lowestBid: 0,
-   bidsCount: 0,
-   expirationDate: '',
+    description: "",
+    requirement: "",
+    posterName: "",
+    posterContact: "",
+    lowestBid: "",
+    bidsCount: 0,
+    expirationDate: "",
   };
 
-  const [jobs, setAddJob] = useState([])
-  const [newJob, setNewJob] = useState(CreateJobPayload)
-  const [editJob, setEditJob] = useState(null)
-  const [editDescription, setEditDescription] = useState('')
-  const [editRequirement, setEditRequirement] = useState('')
-  const [editPosterName, setEditPosterName] = useState('')
-  const [editPosterContact, setEditPosterContact] = useState('')
-  const [editLowestBid, setEditLowestBid] = useState('')
-  const [editBidsCount, setEditBidsCount] = useState('')
-  const [editExpirationDate, setEditExpirationDate] = useState('')
+  const [jobs, setAddJob] = useState([]);
+  const [newJob, setNewJob] = useState(CreateJobPayload);
+  const [editJob, setEditJob] = useState(null);
+  const [editDescription, setEditDescription] = useState("");
+  const [editRequirement, setEditRequirement] = useState("");
+  const [editPosterName, setEditPosterName] = useState("");
+  const [editPosterContact, setEditPosterContact] = useState("");
+  const [editLowestBid, setEditLowestBid] = useState("");
+  const [editBidsCount, setEditBidsCount] = useState("");
+  const [editExpirationDate, setEditExpirationDate] = useState("");
 
-
+  console.log(`${newJob.description}`);
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     switch (name) {
@@ -40,14 +59,14 @@ const AddJob = () => {
         setEditPosterContact(value);
         break;
       case "lowestBid":
-         setEditLowestBid(value);
-         break;
+        setEditLowestBid(value);
+        break;
       case "bidsCount":
         setEditBidsCount(value);
         break;
       case "expirationDate":
-         setEditExpirationDate(value);
-         break;
+        setEditExpirationDate(value);
+        break;
       default:
         break;
     }
@@ -75,245 +94,119 @@ const AddJob = () => {
       expirationDate: editExpirationDate,
     };
     updatedJobs[index] = updatedJob;
-    setAddJob(updatedJobs)
-    setEditJob(null)
+    setAddJob(updatedJobs);
+    setEditJob(null);
     // Clear edit fields
-    setEditRequirement('')
-    setEditDescription('')
-   setEditPosterName('')
-    setEditPosterContact('')
-    setEditLowestBid('')
-    setEditBidsCount('')
-    setEditExpirationDate('')
+    setEditRequirement("");
+    setEditDescription("");
+    setEditPosterName("");
+    setEditPosterContact("");
+    setEditLowestBid("");
+    setEditBidsCount("");
+    setEditExpirationDate("");
   };
 
+  const navigate = useNavigate();
+
   return (
-   <JobAddWrapper data-testid="JobAdd">
-      <div
-      style={{
-        fontFamily: "Arial, sans-serif",
-        maxWidth: "800px",
-        margin: "0 auto",
-      }}
-    >
-      <h2 style={{ textAlign: "center", marginBottom: "20px" }}>Jobs</h2>
-      <div>
-        <h3>Add New Job</h3>
-        <div style={{ marginBottom: "10px" }}>
-          <input
-            type="text"
-            name="description"
-            placeholder="Description"
-            value={newJob.description}
-            onChange={(e) =>
-              setNewJob({ ...newJob, description: e.target.value })
-            }
-            style={{ marginRight: "10px", padding: "5px" }}
+    <JobAddWrapper data-testid="JobAdd">
+      <Form {...formItemLayout} variant="filled" style={{ maxWidth: 600 }}>
+        <div className="formHeader">Add New Job Form</div>
+        <Form.Item
+          label="Description"
+          name="description"
+          value={newJob.description}
+          onChange={(e) =>
+            setNewJob({ ...newJob, description: e.target.value })
+          }
+          rules={[{ required: true, message: "Enter job description" }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label="Requirement"
+          name="requirement"
+          value={newJob.requirement}
+          onChange={(e) =>
+            setNewJob({ ...newJob, requirement: e.target.value })
+          }
+          rules={[{ required: true, message: "Enter job requirements" }]}
+        >
+          <Input.TextArea />
+        </Form.Item>
+        <Form.Item
+          label="Poster Name"
+          name="posterName"
+          value={newJob.posterName}
+          onChange={(e) => setNewJob({ ...newJob, posterName: e.target.value })}
+          rules={[{ required: true, message: "Enter job poster name" }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label="Poster Contact"
+          name="posterContact"
+          value={newJob.posterContact}
+          onChange={(e) =>
+            setNewJob({ ...newJob, posterContact: e.target.value })
+          }
+          rules={[{ required: true, message: "Enter job poster contact" }]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          label="Lowest Bid"
+          name="lowestBid"
+          value={newJob.lowestBid}
+          onChange={(e) => setNewJob({ ...newJob, lowestBid: e.target.value })}
+          rules={[{ message: "Enter your bid value" }]}
+        >
+          <InputNumber
+            precision={2}
+            value={50}
+            step={0.1}
+            prefix="$"
+            style={{ width: "100%" }}
           />
-           <input
-            type="text"
-            name="requirement"
-            placeholder="Requirement"
-            value={newJob.requirement}
-            onChange={(e) =>
-              setNewJob({ ...newJob, requirement: e.target.value })
-            }
-            style={{ marginRight: "10px", padding: "5px" }}
+        </Form.Item>
+        <Form.Item
+          label="Bids Count"
+          name="bidsCount"
+          value={newJob.bidsCount}
+          onChange={(e) => setNewJob({ ...newJob, bidsCount: e.target.value })}
+        >
+          <InputNumber value={0} disabled step={1} style={{ width: "100%" }} />
+        </Form.Item>
+        <Form.Item
+          label="Expiration Date"
+          name="expirationDate"
+          value={newJob.expirationDate}
+          onChange={(e) =>
+            setNewJob({ ...newJob, expirationDate: e.target.value })
+          }
+        >
+          <DatePicker
+            style={{ width: "100%" }}
+            initialValues={dayjs(`${today}`, dateFormat)}
+            minDate={dayjs(`${today}`, dateFormat)}
+            maxDate={dayjs(`2050-12-01`, dateFormat)}
           />
-          <input
-            type="text"
-            name="posterName"
-            placeholder="Poster Name"
-            value={newJob.posterName}
-            onChange={(e) =>
-              setNewJob({ ...newJob, posterName: e.target.value })
-            }
-            style={{ marginRight: "10px", padding: "5px" }}
-          />
-          <input
-            type="text"
-            name="posterContact"
-            placeholder="Poster Contact"
-            value={newJob.posterContact}
-            onChange={(e) =>
-              setNewJob({ ...newJob, posterContact: e.target.value })
-            }
-            style={{ marginRight: "10px", padding: "5px" }}
-          />
-          <input
-            type="text"
-            name="lowestBid"
-            placeholder="Lowest Bid"
-            value={newJob.lowestBid}
-            onChange={(e) =>
-              setNewJob({ ...newJob, lowestBid: e.target.value })
-            }
-            style={{ marginRight: "10px", padding: "5px" }}
-          />
-          <input
-            type="number"
-            name="bidsCount"
-            placeholder="Bids Count"
-            value={newJob.bidsCount}
-            onChange={(e) =>
-              setNewJob({ ...newJob, bidsCount: e.target.value })
-            }
-            style={{ marginRight: "10px", padding: "5px" }}
-          />
-          <input
-            type="text"
-            name="expirationDate"
-            placeholder="Expiration Date"
-            value={newJob.expirationDate}
-            onChange={(e) =>
-              setNewJob({ ...newJob, expirationDate: e.target.value })
-            }
-            style={{ marginRight: "10px", padding: "5px" }}
-          />
-          <button
-            onClick={addJob}
-            style={{ padding: "5px 10px", marginLeft: "10px" }}
-          >
-            Add Job
-          </button>
-        </div>
-      </div>
-      <div>
-        <h3>Preview Job Details</h3>
-        <ul style={{ listStyleType: "none", padding: 0 }}>
-          {jobs.map((job, index) => (
-            <li
-              key={index}
-              style={{
-                marginBottom: "20px",
-                border: "1px solid #ccc",
-                padding: "10px",
-                borderRadius: "5px",
-                boxShadow: "0 0 5px rgba(0, 0, 0, 0.1)",
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  marginBottom: "10px",
-                }}
-              >
-                <div>
-                  <strong>Description:</strong> {job.description}
-                  <br />
-                  <strong>Requirment:</strong> {job.requirement}
-                  <br />
-                  <strong>Poster Name:</strong> ${job.posterName}
-                  <br />
-                  <strong>Poster Contact:</strong> {job.posterContact}
-                  <br />
-                  <strong>Lowest Bid:</strong> {job.lowestBid}
-                  <br />
-                  <strong>Bids Count:</strong> {job.bidsCount}
-                  <br />
-                  <strong>Expiration Date:</strong> {job.expirationDate}
-                  <br />
-                </div>
-              </div>
-              <div>
-                {editJob === job ? (
-                  <>
-                    <input
-                      type="text"
-                      name="description"
-                      value={editDescription}
-                      onChange={handleInputChange}
-                      style={{ marginRight: "10px", padding: "5px" }}
-                    />
-                    <input
-                      type="text"
-                      name="requirement"
-                      value={editRequirement}
-                      onChange={handleInputChange}
-                      style={{ marginRight: "10px", padding: "5px" }}
-                    />
-                    <input
-                      type="number"
-                      name="posterName"
-                      value={editPosterName}
-                      onChange={handleInputChange}
-                      style={{ marginRight: "10px", padding: "5px" }}
-                    />
-                    <input
-                      type="text"
-                      name="posterContact"
-                      value={editPosterContact}
-                      onChange={handleInputChange}
-                      style={{ marginRight: "10px", padding: "5px" }}
-                    />
-                    <input
-                      type="text"
-                      name="lowestBid"
-                      value={editLowestBid}
-                      onChange={handleInputChange}
-                      style={{ marginRight: "10px", padding: "5px" }}
-                    />
-                     <input
-                      type="text"
-                      name="bidsCount"
-                      value={editBidsCount}
-                      onChange={handleInputChange}
-                      style={{ marginRight: "10px", padding: "5px" }}
-                    />
-                    <input
-                      type="text"
-                      name="expirationDate"
-                      value={editExpirationDate}
-                      onChange={handleInputChange}
-                      style={{ marginRight: "10px", padding: "5px" }}
-                    />
-                    <button
-                      onClick={() => updateJob(index)}
-                      style={{ padding: "5px 10px", marginLeft: "10px" }}
-                    >
-                      Update
-                    </button>
-                    <button
-                      onClick={() => setEditJob(null)}
-                      style={{ padding: "5px 10px", marginLeft: "10px" }}
-                    >
-                      Cancel
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <button
-                      onClick={() => {
-                        setEditJob(job);
-                        setEditRequirement(job.requirement);
-                        setEditDescription(job.description);
-                        setEditPosterName(job.posterName);
-                        setEditPosterContact(job.posterContact);
-                        setEditLowestBid(job.lowestBid);
-                        setEditBidsCount(job.bidsCount);
-                        setEditExpirationDate(job.expirationDate);
-                      }}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => deleteJob(index)}
-                      style={{ marginLeft: "10px" }}
-                    >
-                      Delete
-                    </button>
-                  </>
-                )}
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-   </JobAddWrapper>
-    
+        </Form.Item>
+
+        <Form.Item wrapperCol={{ offset: 14, span: 2 }}>
+         <span className="buttonsSpan">
+         <Button className="mrt" type="default" htmlType="submit" onClick={() => navigate('/')}>
+            Cancel
+          </Button>
+          <Button type="primary" htmlType="submit" onClick={addJob}>
+            Add
+          </Button>
+         </span>
+          
+        </Form.Item>
+      </Form>
+    </JobAddWrapper>
   );
-}
+};
 
 export default AddJob;
