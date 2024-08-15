@@ -1,0 +1,26 @@
+{
+  "usesTypeScript": false,
+  "usesStyledComponents": true,
+  "testLibrary": "Testing Library",
+  "component": {
+    "default": {
+      "path": "src/components",
+      "withStyle": true,
+      "withTest": true,
+      "withStory": false,
+      "withLazy": false,
+      "withIndex": true,
+      "customeTemplates": {
+        "component": "templates/TemplateName.js",
+        "index": "templates/index.js"
+      }
+    },
+    "pages": {
+      "path": "src/pages",
+      "withStyle": true,
+      "withTest": true,
+      "withStory": false,
+      "withLazy": false
+    }
+  }
+}
