@@ -68,3 +68,9 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+## Technologies Used
+* Frontend: React. TypeScript, Graphql, Apollo client, Ant design 
+* Backend: Node.js, Express, Graphql Apollo server, Express server, TypeScript, Prisma.
+* Database: PostgreSQL.
+* Others: VS Code, Docker Desktop.
