@@ -75,6 +75,7 @@ const today = new Date().getDate()
   const addJob = () => {
     setAddJob([...jobs, newJob]);
     setNewJob(CreateJobPayload);
+    console.log(newJob)
   };
 
   const deleteJob = (index) => {
@@ -159,7 +160,6 @@ const today = new Date().getDate()
           name="lowestBid"
           value={newJob.lowestBid}
           onChange={(e) => setNewJob({ ...newJob, lowestBid: e.target.value })}
-          rules={[{ message: "Enter your bid value" }]}
         >
           <InputNumber
             precision={2}
